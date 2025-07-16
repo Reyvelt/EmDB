@@ -15,15 +15,19 @@ int main(int argc, char *argv[]) {
 	char *filePath = NULL;
 	char *addstring = NULL;
 	bool newFile = false;
+	bool list = false;
 
 	int dataBaseFileDescriptor = -1;	
 	struct dbheader_t *dataBaseHeader = NULL;
 	struct employee_t *employees = NULL;
 
-	while ((c = getopt(argc, argv, "nf:a:")) != -1) {
+	while ((c = getopt(argc, argv, "nf:a:l")) != -1) {
 		switch(c) {
 			case 'f':
 				filePath = optarg;
+				break;
+			case 'l':
+				list = true;
 				break;
 			case 'n':
 				newFile = true;
@@ -78,6 +82,10 @@ int main(int argc, char *argv[]) {
 		employees = realloc(employees, dataBaseHeader->count*(sizeof(struct employee_t)));
 		add_employee(dataBaseHeader, employees, addstring);
 	}
+
+	if(list) {
+		list_employees(dataBaseHeader, employees);
+	} 
 
 	output_file(dataBaseFileDescriptor, dataBaseHeader, employees);
 
