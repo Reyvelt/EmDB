@@ -79,7 +79,7 @@ int main(int argc, char *argv[]) {
 		add_employee(dataBaseHeader, employees, addstring);
 	}
 
-	output_file(dataBaseFileDescriptor, dataBaseHeader);
+	output_file(dataBaseFileDescriptor, dataBaseHeader, employees);
 
 	return 0;
 }

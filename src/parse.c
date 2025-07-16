@@ -60,15 +60,22 @@ int output_file(int fd, struct dbheader_t *header, struct employee_t *employees)
 		printf("Got a bad file descriptor from user\n");
 		return STATUS_ERROR;
 	}
+	int realCount = header->count;
 
 	header->magic = htonl(header->magic);
-	header->filesize = htonl(header->filesize);
+	header->filesize = htonl(sizeof(struct dbheader_t) + (sizeof(struct employee_t) * realCount));
 	header->count = htons(header->count);
 	header->version = htons(header->version);
 		
 	lseek(fd, 0, SEEK_SET);
 
 	write(fd, header, sizeof(struct dbheader_t));
+
+	int i = 0;
+	for (; i < realCount; i++) {
+		employees[i].hours = htonl(employees[i].hours);
+		write(fd, &employees[i], sizeof(struct employee_t));
+	}
 
 	return STATUS_SUCCESS;
 }	
