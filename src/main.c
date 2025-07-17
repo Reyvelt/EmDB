@@ -14,6 +14,7 @@ int main(int argc, char *argv[]) {
 	int c = 0;
 	char *filePath = NULL;
 	char *addstring = NULL;
+	char *removestring = NULL;
 	bool newFile = false;
 	bool list = false;
 
@@ -21,7 +22,7 @@ int main(int argc, char *argv[]) {
 	struct dbheader_t *dataBaseHeader = NULL;
 	struct employee_t *employees = NULL;
 
-	while ((c = getopt(argc, argv, "nf:a:l")) != -1) {
+	while ((c = getopt(argc, argv, "f:lna:r:")) != -1) {
 		switch(c) {
 			case 'f':
 				filePath = optarg;
@@ -34,6 +35,9 @@ int main(int argc, char *argv[]) {
 				break;
 			case 'a':
 				addstring = optarg;
+				break;
+			case 'r':
+				removestring = optarg;
 				break;
 			case '?':
 				printf("Unknown option -%c\n", c);
@@ -86,6 +90,11 @@ int main(int argc, char *argv[]) {
 	if(list) {
 		list_employees(dataBaseHeader, employees);
 	} 
+
+	if(removestring) {
+		int removeIndex = find_index(dataBaseHeader, employees, removestring);
+		remove_employee(dataBaseHeader, employees, removeIndex);
+	}
 
 	output_file(dataBaseFileDescriptor, dataBaseHeader, employees);
 

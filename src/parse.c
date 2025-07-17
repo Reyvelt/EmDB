@@ -10,6 +10,27 @@
 #include "common.h"
 #include "parse.h"
 
+int find_index(struct dbheader_t *dbhdr, struct employee_t *employees, char *findstring) {
+	int count = dbhdr->count;
+	int i = 0;
+	for (; i < count; i++) {
+		char *name = employees[i].name;
+		if(*name == *findstring){
+			return i;
+		}
+	}
+	printf("Could not find employee\n");
+	return STATUS_ERROR;
+}
+
+int remove_employee(struct dbheader_t *dbhdr, struct employee_t *employees, int removeIndex) {
+	int i = removeIndex;
+	printf("Employee %d\n", i);
+	printf("\tName: %s\n", employees[i].name);
+	printf("\tAddress: %s\n", employees[i].address);
+	printf("\tLogged Hours: %d\n", employees[i].hours);
+}
+
 void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
 	int i = 0;
 	for (; i < dbhdr->count; i++) {
@@ -21,13 +42,16 @@ void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
 }
 
 int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *addstring) {
-	printf("%s\n", addstring);
 
 	char *name = strtok(addstring, ",");
 	char *addr = strtok(NULL, ",");
 	char *hours = strtok(NULL, ",");
 
-	printf("%s %s %s\n", name, addr, hours);
+	printf("New Employee Added:\n");
+
+	printf("\tName: %s\n", name);
+	printf("\tAddress: %s\n", addr);
+	printf("\tLogged Hours: %s\n", hours);
 
 	strncpy(employees[dbhdr->count-1].name, name, sizeof(employees[dbhdr->count-1].name));
 	strncpy(employees[dbhdr->count-1].address, addr, sizeof(employees[dbhdr->count-1].address));
