@@ -24,11 +24,14 @@ int find_index(struct dbheader_t *dbhdr, struct employee_t *employees, char *fin
 }
 
 int remove_employee(struct dbheader_t *dbhdr, struct employee_t *employees, int removeIndex) {
+	int count = dbhdr->count;
 	int i = removeIndex;
-	printf("Employee %d\n", i);
-	printf("\tName: %s\n", employees[i].name);
-	printf("\tAddress: %s\n", employees[i].address);
-	printf("\tLogged Hours: %d\n", employees[i].hours);
+
+	for (; i < count-1; i++) {
+		employees[i] = employees[i + 1];
+	}
+	return STATUS_SUCCESS;
+	
 }
 
 void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
@@ -91,7 +94,8 @@ int output_file(int fd, struct dbheader_t *header, struct employee_t *employees)
 		return STATUS_ERROR;
 	}
 	int realCount = header->count;
-
+	int realFileSize = sizeof(struct dbheader_t) + (sizeof(struct employee_t) * realCount);
+	
 	header->magic = htonl(header->magic);
 	header->filesize = htonl(sizeof(struct dbheader_t) + (sizeof(struct employee_t) * realCount));
 	header->count = htons(header->count);
@@ -105,6 +109,11 @@ int output_file(int fd, struct dbheader_t *header, struct employee_t *employees)
 	for (; i < realCount; i++) {
 		employees[i].hours = htonl(employees[i].hours);
 		write(fd, &employees[i], sizeof(struct employee_t));
+	}
+
+	if (ftruncate(fd, realFileSize) == -1) {
+		perror("ftruncate");
+		return STATUS_ERROR;
 	}
 
 	return STATUS_SUCCESS;
