@@ -92,13 +92,12 @@ int main(int argc, char *argv[]) {
 	} 
 
 	if(removestring) {
-		int removeIndex = find_index(dataBaseHeader, employees, removestring);
+		int removeIndex = find_index(dataBaseHeader, employees, removestring, 1);
 		if (removeIndex != STATUS_ERROR) {
 			remove_employee(dataBaseHeader, employees, removeIndex);
+			dataBaseHeader->count--;
+			employees = realloc(employees, dataBaseHeader->count*(sizeof(struct employee_t)));
 		}
-		dataBaseHeader->count--;
-		employees = realloc(employees, dataBaseHeader->count*(sizeof(struct employee_t)));
-		list_employees(dataBaseHeader, employees);
 	}
 
 	output_file(dataBaseFileDescriptor, dataBaseHeader, employees);

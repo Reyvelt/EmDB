@@ -6,16 +6,39 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
+#include <assert.h>
+#include <stdbool.h>
 
 #include "common.h"
 #include "parse.h"
 
-int find_index(struct dbheader_t *dbhdr, struct employee_t *employees, char *findstring) {
+int find_index(struct dbheader_t *dbhdr, struct employee_t *employees, char *findstring, int elementID) {
 	int count = dbhdr->count;
 	int i = 0;
+	bool match = false;
+	assert(elementID >= 0 && elementID < 4);
 	for (; i < count; i++) {
-		char *name = employees[i].name;
-		if(*name == *findstring){
+		switch(elementID) {
+			case 0:
+				if (i == atoi(findstring)) {
+					match = true;
+				}
+			case 1: 
+				char *name = employees[i].name;
+				if (*name == *findstring){
+					match = true;
+				}
+			case 2: 
+				char *addr = employees[i].address;
+				if (*addr == *findstring) {
+					match = true;
+				}
+			case 3: 
+				if (employees[i].hours == atoi(findstring)) {
+					match = true;
+				}
+		}
+		if(match){
 			return i;
 		}
 	}
