@@ -57,14 +57,22 @@ int remove_employee(struct dbheader_t *dbhdr, struct employee_t *employees, int 
 	
 }
 
-void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
-	int i = 0;
-	for (; i < dbhdr->count; i++) {
-		printf("Employee %d\n", i);
-		printf("\tName: %s\n", employees[i].name);
-		printf("\tAddress: %s\n", employees[i].address);
-		printf("\tLogged Hours: %d\n", employees[i].hours);
+void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees, int employeeIndex) {
+	if(employeeIndex == -1) {
+		int i = 0;
+		for (; i < dbhdr->count; i++) {
+			printf("Employee %d\n", i);
+			printf("\tName: %s\n", employees[i].name);
+			printf("\tAddress: %s\n", employees[i].address);
+			printf("\tLogged Hours: %d\n", employees[i].hours);
+		}
+		return;
 	}
+	int i = employeeIndex;
+	printf("Employee %d\n", i);
+	printf("\tName: %s\n", employees[i].name);
+	printf("\tAddress: %s\n", employees[i].address);
+	printf("\tLogged Hours: %d\n", employees[i].hours);
 }
 
 int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *addstring) {

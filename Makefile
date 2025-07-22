@@ -10,6 +10,7 @@ run: clean default
 	./$(TARGET) -f ./mynewdb.db -l 
 	./$(TARGET) -f ./mynewdb.db -r "Agatha N."
 	./$(TARGET) -f ./mynewdb.db -l 
+	./$(TARGET) -f ./mynewdb.db -s "Gertie A."
 default: $(TARGET)
 
 clean:
