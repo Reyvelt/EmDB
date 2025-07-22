@@ -8,9 +8,9 @@ run: clean default
 	./$(TARGET) -f ./mynewdb.db -a "Agatha N.,42 Devil Ln.,5120"
 	./$(TARGET) -f ./mynewdb.db -a "Gertie A.,92 Anthem St.,80"
 	./$(TARGET) -f ./mynewdb.db -l 
-	./$(TARGET) -f ./mynewdb.db -r "Agatha N."
+	./$(TARGET) -f ./mynewdb.db -s "Agatha N." -d
 	./$(TARGET) -f ./mynewdb.db -l 
-	./$(TARGET) -f ./mynewdb.db -s "Gertie A."
+	./$(TARGET) -f ./mynewdb.db -s "Gertie A." -l
 default: $(TARGET)
 
 clean:

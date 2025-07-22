@@ -12,36 +12,37 @@ void print_usage(char *argv[]) {
 
 int main(int argc, char *argv[]) { 
 	int c = 0;
+	int employeeIndex = -1;
 	char *filePath = NULL;
-	char *addstring = NULL;
-	char *removestring = NULL;
-	char *searchname = NULL;
+	char *addString = NULL;
+	char *searchName = NULL;
+	bool removeEmployee = false;
 	bool newFile = false;
-	bool list = false;
+	bool listEmployee = false;
 
 	int dataBaseFileDescriptor = -1;	
 	struct dbheader_t *dataBaseHeader = NULL;
 	struct employee_t *employees = NULL;
 
-	while ((c = getopt(argc, argv, "f:lna:r:s:")) != -1) {
+	while ((c = getopt(argc, argv, "f:lna:ds:")) != -1) {
 		switch(c) {
 			case 'f':
 				filePath = optarg;
 				break;
 			case 'l':
-				list = true;
+				listEmployee = true;
 				break;
 			case 'n':
 				newFile = true;
 				break;
 			case 'a':
-				addstring = optarg;
+				addString = optarg;
 				break;
-			case 'r':
-				removestring = optarg;
+			case 'd':
+				removeEmployee = true;
 				break;
 			case 's':
-				searchname = optarg;
+				searchName = optarg;
 				break;
 			case '?':
 				printf("Unknown option -%c\n", c);
@@ -85,30 +86,28 @@ int main(int argc, char *argv[]) {
 		return 0;
 	}
 
-	if(addstring) {
+	if(addString) {
 		dataBaseHeader->count++;
 		employees = realloc(employees, dataBaseHeader->count*(sizeof(struct employee_t)));
-		add_employee(dataBaseHeader, employees, addstring);
+		add_employee(dataBaseHeader, employees, addString);
 	}
 
-	if(searchname) {
-		int searchIndex = find_index(dataBaseHeader, employees, searchname, 1);
-		if (searchIndex != STATUS_ERROR) {
-			list_employees(dataBaseHeader, employees, searchIndex);
-		}
+	if(searchName) {
+		employeeIndex = find_index(dataBaseHeader, employees, searchName, 1);
 	}
 
-	if(list) {
-		list_employees(dataBaseHeader, employees, -1);
+	if(listEmployee) {
+		list_employees(dataBaseHeader, employees, employeeIndex);
 	} 
 
-	if(removestring) {
-		int removeIndex = find_index(dataBaseHeader, employees, removestring, 1);
-		if (removeIndex != STATUS_ERROR) {
-			remove_employee(dataBaseHeader, employees, removeIndex);
-			dataBaseHeader->count--;
-			employees = realloc(employees, dataBaseHeader->count*(sizeof(struct employee_t)));
+	if(removeEmployee) {
+		if (employeeIndex == -1) {
+			printf("No employee selected");
+			return 0;
 		}
+		remove_employee(dataBaseHeader, employees, employeeIndex);
+		dataBaseHeader->count--;
+		employees = realloc(employees, dataBaseHeader->count*(sizeof(struct employee_t)));
 	}
 
 	output_file(dataBaseFileDescriptor, dataBaseHeader, employees);

@@ -12,7 +12,7 @@
 #include "common.h"
 #include "parse.h"
 
-int find_index(struct dbheader_t *dbhdr, struct employee_t *employees, char *findstring, int elementID) {
+int find_index(struct dbheader_t *dbhdr, struct employee_t *employees, char *findString, int elementID) {
 	int count = dbhdr->count;
 	int i = 0;
 	bool match = false;
@@ -20,21 +20,21 @@ int find_index(struct dbheader_t *dbhdr, struct employee_t *employees, char *fin
 	for (; i < count; i++) {
 		switch(elementID) {
 			case 0:
-				if (i == atoi(findstring)) {
+				if (i == atoi(findString)) {
 					match = true;
 				}
 			case 1: 
 				char *name = employees[i].name;
-				if (*name == *findstring){
+				if (*name == *findString){
 					match = true;
 				}
 			case 2: 
 				char *addr = employees[i].address;
-				if (*addr == *findstring) {
+				if (*addr == *findString) {
 					match = true;
 				}
 			case 3: 
-				if (employees[i].hours == atoi(findstring)) {
+				if (employees[i].hours == atoi(findString)) {
 					match = true;
 				}
 		}
@@ -75,9 +75,9 @@ void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees, int 
 	printf("\tLogged Hours: %d\n", employees[i].hours);
 }
 
-int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *addstring) {
+int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *addString) {
 
-	char *name = strtok(addstring, ",");
+	char *name = strtok(addString, ",");
 	char *addr = strtok(NULL, ",");
 	char *hours = strtok(NULL, ",");
 
