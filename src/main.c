@@ -93,7 +93,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	if(searchName) {
-		employeeIndex = find_index(dataBaseHeader, employees, searchName, 1);
+		employeeIndex = find_index(dataBaseHeader, employees, searchName, 0);
 	}
 
 	if(listEmployee) {

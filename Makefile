@@ -11,6 +11,7 @@ run: clean default
 	./$(TARGET) -f ./mynewdb.db -s "Agatha N." -d
 	./$(TARGET) -f ./mynewdb.db -l 
 	./$(TARGET) -f ./mynewdb.db -s "Gertie A." -l
+	./$(TARGET) -f ./mynewdb.db -s "123 Seshire Ln." -l
 default: $(TARGET)
 
 clean:

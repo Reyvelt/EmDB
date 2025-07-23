@@ -12,29 +12,21 @@
 #include "common.h"
 #include "parse.h"
 
-int find_index(struct dbheader_t *dbhdr, struct employee_t *employees, char *findString, int elementID) {
+int find_index(struct dbheader_t *dbhdr, struct employee_t *employees, char *findstring, int elementID) {
 	int count = dbhdr->count;
 	int i = 0;
 	bool match = false;
-	assert(elementID >= 0 && elementID < 4);
+	assert(elementID >= 0 && elementID <= 2);
 	for (; i < count; i++) {
 		switch(elementID) {
-			case 0:
-				if (i == atoi(findString)) {
+			case 0: 
+				char *name = employees[i].name;
+				char *address = employees[i].address;
+				if (*name == *findstring || *address == *findstring){
 					match = true;
 				}
 			case 1: 
-				char *name = employees[i].name;
-				if (*name == *findString){
-					match = true;
-				}
-			case 2: 
-				char *addr = employees[i].address;
-				if (*addr == *findString) {
-					match = true;
-				}
-			case 3: 
-				if (employees[i].hours == atoi(findString)) {
+				if (employees[i].hours == atoi(findstring)) {
 					match = true;
 				}
 		}
