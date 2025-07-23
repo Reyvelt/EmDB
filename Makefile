@@ -12,6 +12,10 @@ run: clean default
 	./$(TARGET) -f ./mynewdb.db -l 
 	./$(TARGET) -f ./mynewdb.db -s "Gertie A." -l
 	./$(TARGET) -f ./mynewdb.db -s "123 Seshire Ln." -l
+	./$(TARGET) -f ./mynewdb.db -s "Timmy H." -u "address:71 Anthony Vill."
+	./$(TARGET) -f ./mynewdb.db -s "Timmy H." -u "hours:6532"
+	./$(TARGET) -f ./mynewdb.db -s "Timmy H." -u "name:Timothy H."
+	./$(TARGET) -f ./mynewdb.db -l
 default: $(TARGET)
 
 clean:

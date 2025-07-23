@@ -24,4 +24,5 @@ void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees, int 
 int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *addString);
 int remove_employee(struct dbheader_t *dbhdr, struct employee_t *employees, int removeIndex);
 int find_index(struct dbheader_t *dbhdr, struct employee_t *employees, char *findString, int elementID);
+int update_employee(struct employee_t *employees, char *updateString, int updateIndex);
 #endif

@@ -16,6 +16,7 @@ int main(int argc, char *argv[]) {
 	char *filePath = NULL;
 	char *addString = NULL;
 	char *searchName = NULL;
+  char *updateString = NULL;
 	bool removeEmployee = false;
 	bool newFile = false;
 	bool listEmployee = false;
@@ -24,7 +25,7 @@ int main(int argc, char *argv[]) {
 	struct dbheader_t *dataBaseHeader = NULL;
 	struct employee_t *employees = NULL;
 
-	while ((c = getopt(argc, argv, "f:lna:ds:")) != -1) {
+	while ((c = getopt(argc, argv, "f:lna:ds:u:")) != -1) {
 		switch(c) {
 			case 'f':
 				filePath = optarg;
@@ -44,6 +45,9 @@ int main(int argc, char *argv[]) {
 			case 's':
 				searchName = optarg;
 				break;
+      case 'u':
+        updateString = optarg;
+        break;
 			case '?':
 				printf("Unknown option -%c\n", c);
 				break;
@@ -99,6 +103,14 @@ int main(int argc, char *argv[]) {
 	if(listEmployee) {
 		list_employees(dataBaseHeader, employees, employeeIndex);
 	} 
+
+  if(updateString) {
+		if (employeeIndex == -1) {
+			printf("No employee selected");
+			return 0;
+		}
+    update_employee(employees, updateString, employeeIndex);
+  }
 
 	if(removeEmployee) {
 		if (employeeIndex == -1) {

@@ -12,6 +12,20 @@
 #include "common.h"
 #include "parse.h"
 
+int update_employee(struct employee_t *employees, char *updateString, int updateIndex) {
+  int i = updateIndex;
+  char *element = strtok(updateString, ":");
+  char *updateStr = strtok(NULL, ",");
+  if(strcmp(element, "name") == 0) {
+    strncpy(employees[i].name, updateStr, sizeof(employees[i].name));
+  } else if (strcmp(element, "address") == 0) {
+    strncpy(employees[i].address, updateStr, sizeof(employees[i].address));
+  } else if (strcmp(element, "hours") == 0) {
+    employees[i].hours = atoi(updateStr);
+  }
+  return STATUS_SUCCESS;
+}
+
 int find_index(struct dbheader_t *dbhdr, struct employee_t *employees, char *findstring, int elementID) {
 	int count = dbhdr->count;
 	int i = 0;
