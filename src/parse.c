@@ -30,7 +30,7 @@ int find_index(struct dbheader_t *dbhdr, struct employee_t *employees, char *fin
 	int count = dbhdr->count;
 	int i = 0;
 	bool match = false;
-	assert(elementID >= 0 && elementID <= 2);
+	assert(elementID >= 0 && elementID < 2);
 	for (; i < count; i++) {
 		switch(elementID) {
 			case 0: 
@@ -40,7 +40,7 @@ int find_index(struct dbheader_t *dbhdr, struct employee_t *employees, char *fin
 					match = true;
 				}
 			case 1: 
-				if (employees[i].hours == atoi(findstring)) {
+				if (employees[i].hours == (unsigned int)atoi(findstring)) {
 					match = true;
 				}
 		}
@@ -204,7 +204,7 @@ int validate_db_header(int fd, struct dbheader_t **headerOut) {
 	return STATUS_SUCCESS;
 }
 
-int create_db_header(int fd, struct dbheader_t **headerOut) {
+int create_db_header(struct dbheader_t **headerOut) {
 	struct dbheader_t *header = calloc(1, sizeof(struct dbheader_t));
 	if(header == -1){
 		printf("Malloc failed to create db header\n");
