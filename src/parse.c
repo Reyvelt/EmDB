@@ -206,8 +206,7 @@ int validate_db_header(int fd, struct dbheader_t **headerOut) {
 
 int create_db_header(struct dbheader_t **headerOut) {
 
-  struct dbheader_t **header_test = NULL;
-  if(sizeof(*headerOut) != sizeof(struct dbheader_t *)) {
+  if(*headerOut == NULL) {
     printf("Invalid Header Address\n");
     return STATUS_ERROR;
   }
