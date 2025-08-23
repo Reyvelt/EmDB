@@ -100,7 +100,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	if(listEmployee) {
-		list_employees(dataBaseHeader, employees, employeeIndex);
+		list_employees(dataBaseHeader, employees);
 	} 
 
   if(updateString) {

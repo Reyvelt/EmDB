@@ -76,8 +76,20 @@ int remove_employee(struct dbheader_t *dbhdr, struct employee_t *employees, int 
 	
 }
 
-void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees, int employeeIndex) {
-	if(employeeIndex == -1) {
+void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
+  int employeeIndex = -1;
+
+  if (dbhdr == NULL) {
+    printf("Invalid Header\n");
+    return STATUS_ERROR;
+  }
+
+  if (employees == NULL) {
+    printf("Invalid Database\n");
+    return STATUS_ERROR;
+  }
+
+	if (employeeIndex == -1) {
 		int i = 0;
 		for (; i < dbhdr->count; i++) {
 			printf("Employee %d\n", i);
