@@ -76,7 +76,7 @@ int remove_employee(struct dbheader_t *dbhdr, struct employee_t *employees, int 
 	
 }
 
-void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
+int list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
   int employeeIndex = -1;
 
   if (dbhdr == NULL) {
@@ -97,13 +97,15 @@ void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
 			printf("\tAddress: %s\n", employees[i].address);
 			printf("\tLogged Hours: %d\n", employees[i].hours);
 		}
-		return;
+		return STATUS_SUCCESS;
 	}
 	int i = employeeIndex;
 	printf("Employee %d\n", i);
 	printf("\tName: %s\n", employees[i].name);
 	printf("\tAddress: %s\n", employees[i].address);
 	printf("\tLogged Hours: %d\n", employees[i].hours);
+
+  return STATUS_SUCCESS;
 }
 
 int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *addString) {

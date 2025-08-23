@@ -100,7 +100,10 @@ int main(int argc, char *argv[]) {
 	}
 
 	if(listEmployee) {
-		list_employees(dataBaseHeader, employees);
+		if(list_employees(dataBaseHeader, employees) == STATUS_ERROR) {
+      printf("Failed to list employees\n");
+      return 0;
+    }
 	} 
 
   if(updateString) {
