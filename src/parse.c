@@ -12,6 +12,17 @@
 #include "common.h"
 #include "parse.h"
 
+int validate_str(const char *addString, const char *whiteList) {
+  int result = STATUS_SUCCESS;
+  while(*addString) {
+    if (!strchr(whiteList, *addString++)) {
+      result = STATUS_ERROR;
+      break;
+    }
+  }
+  return result;
+}
+
 int update_employee(struct employee_t *employees, char *updateString, int updateIndex) {
   int i = updateIndex;
   char *element = strtok(updateString, ":");
@@ -109,11 +120,40 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
 	char *addr = strtok(NULL, ",");
 	char *hours = strtok(NULL, ",");
 
+  if(sizeof(*name) > NAME_LEN) {
+    printf("Name too long\n");
+    return STATUS_ERROR;
+  }
+
+  if(sizeof(*addr) > ADDRESS_LEN) {
+    printf("Address too long\n");
+    return STATUS_ERROR;
+  }
+
+  const char *validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890. ";
+  if(validate_str(name, validChars) == STATUS_ERROR) {
+    printf("Name can only contain a-z, A-Z, 0-9, spaces and periods\n");
+    return STATUS_ERROR;
+  }
+
+  if(validate_str(addr, validChars) == STATUS_ERROR) {
+    printf("Address can only contain a-z, A-Z, 0-9, spaces and periods\n");
+    return STATUS_ERROR;
+  }
+
+  const char *validHours = "0123456789";
+
+  if(validate_str(hours, validHours) == STATUS_ERROR) {
+    printf("Invalid Hours");
+    return STATUS_ERROR;
+  }
+
 	printf("New Employee Added:\n");
 
 	printf("\tName: %s\n", name);
 	printf("\tAddress: %s\n", addr);
 	printf("\tLogged Hours: %s\n", hours);
+
 
 	strncpy(employees_temp[dbhdr->count-1].name, name, sizeof(employees_temp[dbhdr->count-1].name));
 	strncpy(employees_temp[dbhdr->count-1].address, addr, sizeof(employees_temp[dbhdr->count-1].address));
