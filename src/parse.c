@@ -153,7 +153,7 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
   errno = 0;
   long hours = strtol(hourStr, (char **)NULL, 10);
 
-  if (errno = ERANGE || hours < INT_MIN || hours > INT_MAX) {
+  if (errno == ERANGE || hours < INT_MIN || hours > INT_MAX) {
     printf("Out of range\n");
     return STATUS_ERROR;
   }
@@ -167,7 +167,7 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
 
 	strncpy(employees_temp[dbhdr->count-1].name, name, sizeof(employees_temp[dbhdr->count-1].name));
 	strncpy(employees_temp[dbhdr->count-1].address, addr, sizeof(employees_temp[dbhdr->count-1].address));
-	employees_temp[dbhdr->count-1].hours = hours;
+	employees_temp[dbhdr->count-1].hours = (unsigned int)hours;
 
   *employees = employees_temp;
 		
