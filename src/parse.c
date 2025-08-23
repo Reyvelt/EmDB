@@ -121,13 +121,13 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
 	char *name = strtok(addString, ",");
 	char *addr = strtok(NULL, ",");
 	char *hourStr = strtok(NULL, ",");
-
-  if(sizeof(*name) > NAME_LEN) {
+  
+  if(strlen(name) > sizeof(char[NAME_LEN])) {
     printf("Name too long\n");
     return STATUS_ERROR;
   }
 
-  if(sizeof(*addr) > ADDRESS_LEN) {
+  if(strlen(addr) > sizeof(char[ADDRESS_LEN])) {
     printf("Address too long\n");
     return STATUS_ERROR;
   }
