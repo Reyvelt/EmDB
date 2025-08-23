@@ -2,6 +2,8 @@
 #define PARSE_H
 
 #define HEADER_MAGIC 0x4c4c4144
+#define NAME_LEN 256
+#define ADDRESS_LEN 256
 
 struct dbheader_t {
 	unsigned int magic;
@@ -11,8 +13,8 @@ struct dbheader_t {
 };
 
 struct employee_t {
-	char name[256];
-	char address[256];
+	char name[NAME_LEN];
+	char address[ADDRESS_LEN];
 	unsigned int hours;
 };
 
@@ -21,7 +23,7 @@ int validate_db_header(int fd, struct dbheader_t **headerOut);
 int read_employees(int fd, struct dbheader_t *, struct employee_t **employeesOut);
 int output_file(int fd, struct dbheader_t *header, struct employee_t *employees);
 void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees, int employeeIndex);
-int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *addString);
+int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *addString);
 int remove_employee(struct dbheader_t *dbhdr, struct employee_t *employees, int removeIndex);
 int find_index(struct dbheader_t *dbhdr, struct employee_t *employees, char *findString, int elementID);
 int update_employee(struct employee_t *employees, char *updateString, int updateIndex);

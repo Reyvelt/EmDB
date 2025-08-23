@@ -81,7 +81,7 @@ void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees, int 
 	printf("\tLogged Hours: %d\n", employees[i].hours);
 }
 
-int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *addString) {
+int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *addString) {
 
   if (dbhdr == NULL) {
     printf("Invalid Header\n");
@@ -98,7 +98,12 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *a
     return STATUS_ERROR;
   }
 
-
+	dbhdr->count++;
+	struct employee_t *employees_temp = realloc(*employees, dbhdr->count*(sizeof(struct employee_t)));
+  if(employees_temp == NULL) {
+    printf("Memory Allocation Failed\n");
+    return STATUS_ERROR;
+  }
 
 	char *name = strtok(addString, ",");
 	char *addr = strtok(NULL, ",");
@@ -110,9 +115,11 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *a
 	printf("\tAddress: %s\n", addr);
 	printf("\tLogged Hours: %s\n", hours);
 
-	strncpy(employees[dbhdr->count-1].name, name, sizeof(employees[dbhdr->count-1].name));
-	strncpy(employees[dbhdr->count-1].address, addr, sizeof(employees[dbhdr->count-1].address));
-	employees[dbhdr->count-1].hours = atoi(hours);
+	strncpy(employees_temp[dbhdr->count-1].name, name, sizeof(employees_temp[dbhdr->count-1].name));
+	strncpy(employees_temp[dbhdr->count-1].address, addr, sizeof(employees_temp[dbhdr->count-1].address));
+	employees_temp[dbhdr->count-1].hours = atoi(hours);
+
+  *employees = employees_temp;
 		
 	return STATUS_SUCCESS;
 }

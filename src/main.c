@@ -91,9 +91,8 @@ int main(int argc, char *argv[]) {
 	}
 
 	if(addString) {
-		dataBaseHeader->count++;
-		employees = realloc(employees, dataBaseHeader->count*(sizeof(struct employee_t)));
-		add_employee(dataBaseHeader, employees, addString);
+    
+		add_employee(dataBaseHeader, &employees, addString);
 	}
 
 	if(searchName) {
