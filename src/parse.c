@@ -8,6 +8,8 @@
 #include <string.h>
 #include <assert.h>
 #include <stdbool.h>
+#include <limits.h>
+#include <errno.h>
 
 #include "common.h"
 #include "parse.h"
@@ -118,14 +120,14 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
 
 	char *name = strtok(addString, ",");
 	char *addr = strtok(NULL, ",");
-	char *hours = strtok(NULL, ",");
+	char *hourStr = strtok(NULL, ",");
 
-  if(sizeof(name) > NAME_LEN) {
+  if(sizeof(*name) > NAME_LEN) {
     printf("Name too long\n");
     return STATUS_ERROR;
   }
 
-  if(sizeof(addr) > ADDRESS_LEN) {
+  if(sizeof(*addr) > ADDRESS_LEN) {
     printf("Address too long\n");
     return STATUS_ERROR;
   }
@@ -143,13 +145,16 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
 
   const char *validHours = "0123456789";
 
-  if(validate_str(hours, validHours) == STATUS_ERROR) {
+  if(validate_str(hourStr, validHours) == STATUS_ERROR) {
     printf("Invalid hours\n");
     return STATUS_ERROR;
   }
 
-  if(atoi(hours) < 0) {
-    printf("Invalid hours\n");
+  errno = 0;
+  long hours = strtol(hourStr, (char **)NULL, 10);
+
+  if (errno = ERANGE || hours < INT_MIN || hours > INT_MAX) {
+    printf("Out of range\n");
     return STATUS_ERROR;
   }
 
@@ -157,12 +162,12 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
 
 	printf("\tName: %s\n", name);
 	printf("\tAddress: %s\n", addr);
-	printf("\tLogged Hours: %s\n", hours);
+	printf("\tLogged Hours: %d\n", hours);
 
 
 	strncpy(employees_temp[dbhdr->count-1].name, name, sizeof(employees_temp[dbhdr->count-1].name));
 	strncpy(employees_temp[dbhdr->count-1].address, addr, sizeof(employees_temp[dbhdr->count-1].address));
-	employees_temp[dbhdr->count-1].hours = atoi(hours);
+	employees_temp[dbhdr->count-1].hours = hours;
 
   *employees = employees_temp;
 		
