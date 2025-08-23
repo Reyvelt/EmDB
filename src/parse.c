@@ -83,6 +83,23 @@ void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees, int 
 
 int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *addString) {
 
+  if (dbhdr == NULL) {
+    printf("Invalid Header\n");
+    return STATUS_ERROR;
+  }
+
+  if (employees == NULL) {
+    printf("Invalid Database\n");
+    return STATUS_ERROR;
+  }
+
+  if (addString == NULL) {
+    printf("Invalid Employee String\n");
+    return STATUS_ERROR;
+  }
+
+
+
 	char *name = strtok(addString, ",");
 	char *addr = strtok(NULL, ",");
 	char *hours = strtok(NULL, ",");
