@@ -119,8 +119,24 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
   }
 
 	char *name = strtok(addString, ",");
+  if(name == NULL) {
+    printf("Malformed addString\n");
+    return STATUS_ERROR;
+  }
+
 	char *addr = strtok(NULL, ",");
+
+  if(addr == NULL) {
+    printf("Malformed addString\n");
+    return STATUS_ERROR;
+  }
+
 	char *hourStr = strtok(NULL, ",");
+
+  if(hourStr == NULL) {
+    printf("Malformed addString\n");
+    return STATUS_ERROR;
+  }
   
   if(strlen(name) > sizeof(char[NAME_LEN])) {
     printf("Name too long\n");
