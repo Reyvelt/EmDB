@@ -148,7 +148,7 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
     return STATUS_ERROR;
   }
 
-  if(atoi(hours) < 0 || sizeof(hours) > sizeof(int)) {
+  if(atoi(hours) < 0) {
     printf("Invalid hours\n");
     return STATUS_ERROR;
   }
